@@ -41,23 +41,40 @@ function Grid() {
         connectedMap.set(element,connectedEleMap);
     }
 
+    this.makePointStatement = function(statement, funcOne, funcTwo, colIdx){
+        var mapPoint = [];
+        if(statement){
+            mapPoint = funcOne(colIdx);
+        }else{
+            mapPoint = funcTwo(colIdx);
+        }
+        return mapPoint;
+    }
+
     this.constructVerticalConnectedMap = function(colIdx){
         var mapPoint = [];
         colIdx = parseInt(colIdx);
-        if((colIdx - 1) < 0){
+        return this.makePointStatement((colIdx - 1) < 0, this.makeLeftEle, this.makeNonLeftEle, colIdx);
+    }
+
+    this.makeLeftEle = function(colIdx){
+        var mapPoint = [];
+        for(i = 0; i < rowSize; i++){
+            mapPoint.push(gridContent[i][colIdx + 1]);
+        }
+        return mapPoint;
+    }
+
+    this.makeNonLeftEle = function(colIdx){
+        var mapPoint = [];
+        if((colIdx + 1) < rowSize){
             for(i = 0; i < rowSize; i++){
+                mapPoint.push(gridContent[i][colIdx - 1]);
                 mapPoint.push(gridContent[i][colIdx + 1]);
             }
         }else{
-            if((colIdx + 1) < rowSize){
-                for(i = 0; i < rowSize; i++){
-                    mapPoint.push(gridContent[i][colIdx - 1]);
-                    mapPoint.push(gridContent[i][colIdx + 1]);
-                }
-            }else{
-                for(i = 0; i < rowSize; i++){
-                    mapPoint.push(gridContent[i][colIdx - 1]);
-                }
+            for(i = 0; i < rowSize; i++){
+                mapPoint.push(gridContent[i][colIdx - 1]);
             }
         }
         return mapPoint;
@@ -66,20 +83,27 @@ function Grid() {
     this.constructParalleConnectedMap = function(rowIdx){
         var mapPoint = [];
         rowIdx = parseInt(rowIdx);
-        if((rowIdx - 1) < 0){
+        return this.makePointStatement((rowIdx - 1) < 0, this.makeUpEle, this.makeNonUpEle, rowIdx);
+    }
+
+    this.makeUpEle = function(rowIdx){
+        var mapPoint = [];
+        for(i = 0; i < rowSize; i++){
+            mapPoint.push(gridContent[rowIdx + 1][i]);
+        }
+        return mapPoint;
+    }
+
+    this.makeNonUpEle = function(rowIdx){
+        var mapPoint = [];
+        if((rowIdx + 1) < rowSize){
             for(i = 0; i < rowSize; i++){
+                mapPoint.push(gridContent[rowIdx - 1][i]);
                 mapPoint.push(gridContent[rowIdx + 1][i]);
             }
         }else{
-            if((rowIdx + 1) < rowSize){
-                for(i = 0; i < rowSize; i++){
-                    mapPoint.push(gridContent[rowIdx - 1][i]);
-                    mapPoint.push(gridContent[rowIdx + 1][i]);
-                }
-            }else{
-                for(i = 0; i < rowSize; i++){
-                    mapPoint.push(gridContent[rowIdx - 1][i]);
-                }
+            for(i = 0; i < rowSize; i++){
+                mapPoint.push(gridContent[rowIdx - 1][i]);
             }
         }
         return mapPoint;
