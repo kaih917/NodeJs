@@ -36,13 +36,13 @@ class Watcher extends events.EventEmitter{
 
 var watcher = new Watcher(watchDir, processorDir);
 
-// watcher.on('process', function process(file){
-//     var watchFile  =  this.watchDir + '/' + file.toLowerCase();
-//     var processedFile = this.processorDir + '/' + file.toLowerCase();
+ watcher.on('process', function process(file){
+     var watchFile  =  this.watchDir + '/' + file.toLowerCase();
+     var processedFile = this.processorDir + '/' + file.toLowerCase();
 
-//     fs.rename(watchFile, processedFile, function(err){
-//         if (err) throw err;
-//     });
-// })
+     fs.rename(watchFile, processedFile, function(err){
+         if (err) throw err;
+     });
+ })
 
 watcher.start();
